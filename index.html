@@ -22,8 +22,15 @@
       </b>
     </div>
 
-    <div id="main">
-      <b>INPUT HERE</b>
+    <div id="main-area" style="display:none">
+      <form action="javascript:search()">
+        <b>INPUT SEARCH QUERY HERE</b><br>
+        <input type="search" id="query" name="query" placeholder="search query">
+        <input type="submit" value="Search">
+      </form>
+
+      <div id="results">
+      </div>
     </div>
 
     <script src="./dom.js"></script>

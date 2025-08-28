@@ -1,5 +1,5 @@
-const parser = new DOMParser();
-const posts = [];
+const PARSER = new DOMParser();
+const POSTS = [];
 
 async function main() {
    // using API for SOP reasons...
@@ -15,7 +15,7 @@ async function main() {
    // I usually scrape with regex, but lets abuse the JS builtin XML parser for
   //  once
   const siteHTML = await res.text();
-  const site = parser.parseFromString(siteHTML, "text/html");
+  const site = PARSER.parseFromString(siteHTML, "text/html");
 
      // 'archive' is a <ul>, full of <li>, which contain <a>
     //  'href' is stored as a full address including protocol and stuff, so
@@ -25,7 +25,7 @@ async function main() {
     .map(li => li.firstChild.href.match(/_.+/)[0])
 
   await extractPosts(links.slice(0,5));
-  changeView("main");
+  changeView("main-area");
 }
 
 
@@ -40,31 +40,36 @@ async function extractPosts(links) {
     }
 
     postData = {
-      title: "",
-      subtitle: "",
-      description: "",
+      text:         "",
+      postAddress:  "https://analognowhere.com/" + link,
       imageAddress: "",
     }
-    const post = parser.parseFromString(await res.text(), "text/html");
+    const post = PARSER.parseFromString(await res.text(), "text/html");
 
-    postData.title = post.getElementsByTagName("h1")[0].innerHTML;
-    postData.subtitle = post.getElementsByClassName("desc")[0].innerHTML;
+    // title
+    postData.text = post.getElementsByTagName("h1")[0].innerHTML;
+    // subtitle
+    postData.text += " " + post.getElementsByClassName("desc")[0].innerHTML;
 
-    // desc starts with <summary>, which I want gone
-    // I will keep the HTML in, it doesn't really matter...
+      // description
     const desc = post.getElementsByTagName("details")[0];
+    // not all posts have description
     if (desc != undefined) {
+       //  desc starts with <summary>, which I want gone
+      //   I will keep the HTML in, it doesn't really matter...
       desc.removeChild(desc.firstChild);
-      postData.description = desc.innerHTML
+      postData.text += " " + desc.innerHTML;
     }
+
+    postData.text = postData.text.toLowerCase();
 
     postData.imageAddress = "https://analognowhere.com/"
       + post.getElementsByTagName("img")[0].src.match(/_.+/)[0];
 
-    posts.push(postData);
+    POSTS.push(postData);
   }
 
-  console.log(posts)
+  console.log(POSTS)
 }
 
 
