@@ -1,0 +1,58 @@
+:root {
+  font-family: sans;
+}
+
+h1 {
+  font-size: 1.7em;
+}
+
+main {
+  text-align: center;
+  align-contents: center;
+  margin: 0;
+  padding: 0;
+}
+
+p {
+  max-width: 85ch;
+  margin: auto;
+}
+
+#results {
+  line-height: 2px;
+}
+
+img {
+   border: 2px black solid;
+   display: inline;
+   max-width: 18%;
+   max-height: 18%;
+   margin: 2px;
+}
+
+@media screen and (max-width: 1200px) {
+   img {
+      max-width: 23%;
+      max-height: 23%;
+   }
+}
+
+@media screen and (max-width: 800px) {
+   img {
+      max-width: 31%;
+      max-height: 31%;
+   }
+}
+
+@media screen and (max-width: 500px) {
+   img {
+      max-width: 47%;
+      max-height: 47%;
+      border: 1px black solid;
+      margin: 1px;
+   }
+
+  #results {
+    line-height: 1px;
+  }
+}

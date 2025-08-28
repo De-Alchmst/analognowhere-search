@@ -7,31 +7,45 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
   </head>
   <body>
-    <h1>~::Analognowhere Search::~</h1>
+    <main>
+      <h1>~::Analognowhere Search::~</h1>
+      <p>
+        <a href="https://analognowhere.com/">Analognowhere</a>
+        is a collection of images created by
+        <a href="https://merveilles.town/@prahou">Prahou</a>.
+        This website only provides a way to conduct text based searches.
+      <br>
+        More about this utility
+        <a href="https://ctrl-c.club/~de_alchmst/b-logs/web/analognowhere-search:analogwnowhere-search.html">here</a>.
+      </p>
 
-    <div id="loading-screen">
-      <b>LOADING DATA...</b>
-    </div>
-    <div id="loading-error" style="display: none">
-      <b style="color: red">LOADING FAILED!</b> <br>
-      <b style="color: red">
-        Could not fetch
-       '<i><a href="https://analognowhere.com/_/archive/">
-            https://analognowhere.com/_/archive/
-        </a></i>'
-      </b>
-    </div>
+      <br>
 
-    <div id="main-area" style="display:none">
-      <form action="javascript:search()">
-        <b>INPUT SEARCH QUERY HERE</b><br>
-        <input type="search" id="query" name="query" placeholder="search query">
-        <input type="submit" value="Search">
-      </form>
-
-      <div id="results">
+      <div id="loading-screen">
+        <b>LOADING DATA...</b>
       </div>
-    </div>
+      <div id="loading-error" style="display: none;">
+        <b style="color: red">LOADING FAILED!</b> <br>
+        <b style="color: red">
+          Could not fetch
+          '<i><a href="https://analognowhere.com/_/archive/">
+              https://analognowhere.com/_/archive/
+            </a></i>'
+        </b>
+      </div>
+
+      <div id="main-area" style="display: none;">
+        <form action="javascript:search()">
+          <b>INPUT A LIST OF KEYWORDS HERE</b><br>
+          <input type="search" id="query" name="query" placeholder="keywords...">
+          <input type="submit" value="Search">
+        </form>
+
+        <br>
+        <div id="results">
+        </div>
+      </div>
+    </main>
 
     <script src="./dom.js"></script>
     <script src="./get.js"></script>

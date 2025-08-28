@@ -24,7 +24,7 @@ async function main() {
   const links = Array.from(site.getElementsByClassName("archive")[0].children)
     .map(li => li.firstChild.href.match(/_.+/)[0])
 
-  await extractPosts(links.slice(0,5));
+  await extractPosts(links);
   changeView("main-area");
 }
 
