@@ -21,24 +21,7 @@
 
       <br>
 
-      <div id="loading-screen">
-        <b>LOADING DATA...</b>
-        <p>
-          This might take a while, blame
-          <a href="https://en.wikipedia.org/wiki/Same-origin_policy">SOP</a>...
-        </p>
-      </div>
-      <div id="loading-error" style="display: none;">
-        <b style="color: red">LOADING FAILED!</b> <br>
-        <b style="color: red">
-          Could not fetch
-          '<i><a href="https://analognowhere.com/_/archive/">
-              https://analognowhere.com/_/archive/
-            </a></i>'
-        </b>
-      </div>
-
-      <div id="main-area" style="display: none;">
+      <div id="main-area">
         <form action="javascript:search()">
           <b>INPUT A LIST OF KEYWORDS HERE</b><br>
           <input type="search" id="query" name="query" placeholder="keywords...">
@@ -51,8 +34,6 @@
       </div>
     </main>
 
-    <script src="./dom.js"></script>
-    <script src="./get.js"></script>
-    <script src="./search.js"></script>
+    <script src="./script.js"></script>
   </body>
 </html>
