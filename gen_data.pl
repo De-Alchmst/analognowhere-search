@@ -23,43 +23,76 @@ my @index = $resp =~ /_\/[\w\d]+\//g;
 
 # Get Entries
 
+my $self_dir = dirname $0;
 my $entries = "";
 
 for my $link (@index) {
-    my $addr = "https://analognowhere.com/$link";
-    my $resp = get $addr;
+    my ($addr, $image_address, $text);
 
-    $resp =~ m/img src="(\S+?)"/;
-    my $imageAddress = "https://analognowhere.com/$1";
+    my $local_path = "$self_dir/backup/$link";
 
-    # title
-    my $text;
-    $resp =~ m/<h1>(.+?)<\/h1>/;
-    $text = lc "$1";
+    # data not present, download them and store locally
+    if (not -e $local_path) {
+        ## download
+        $addr = "https://analognowhere.com/$link";
+        my $resp = get $addr;
 
-    # subtitle ('*' because might be empty)
-    $resp =~ m/<p class="desc">(.*?)<\/p>/;
-    $text .= lc $1;
+        $resp =~ m/img src="(\S+?)"/;
+        my $server_image_address = "https://analognowhere.com/$1";
+        my ($image_extention) = $server_image_address =~ m/(\.\w+)$/;
+        $image_address = "backup/${link}image$image_extention";
 
-    # description
-    for my $p ($resp =~ /<p>([\s\S]+?)<\/p>/g) {
-        $text .= lc $p;
+        # title
+        $resp =~ m/<h1>(.+?)<\/h1>/;
+        $text = lc $1;
+
+        # subtitle ('*' because might be empty)
+        $resp =~ m/<p class="desc">(.*?)<\/p>/;
+        $text .= " " . lc $1;
+
+        # description
+        for my $p ($resp =~ /<p>([\s\S]+?)<\/p>/g) {
+            $text .= " " . lc $p;
+        }
+
+        ## store data
+        mkdir $local_path;
+
+        # store image
+        getstore($server_image_address, "$local_path/image$image_extention");
+
+        # store data
+        open(DATA_OUT, ">", "$local_path/data.txt") or die "hard";
+        print DATA_OUT "$addr\n$image_address\n$text";
+        close DATA_OUT;
     }
 
+    # data present, read local version
+    else {
+        open(DATA_IN, "<", "$local_path/data.txt") or die "hard";
+        chomp($addr          = <DATA_IN>);
+        chomp($image_address = <DATA_IN>);
+        {
+            local $/;
+            $text = <DATA_IN>;
+        }
+        close DATA_IN;
+    }
+
+
     $entries .= "," if $entries ne "";
-    $entries .= qq({"entryAddress":"$addr", "imageAddress":"$imageAddress",)
+    $entries .= qq({"entryAddress":"$addr", "imageAddress":"$image_address",)
              .  qq("text":") . (sanitize $text) . qq("});
 }
 
-my $self_dir = dirname $0;
 
-open(OUT, ">", "$self_dir/script.js") or die "hard";
-print OUT "const POSTS = $entries";
+open(SCRIPT_OUT, ">", "$self_dir/script.js") or die "hard";
+print SCRIPT_OUT "const POSTS = [$entries];";
 
-print OUT do {
+print SCRIPT_OUT do {
     open(my $in,  "<", "$self_dir/script.js.template") or die "hard";
     local $/;
     <$in>;
 };
 
-close OUT;
+close SCRIPT_OUT;

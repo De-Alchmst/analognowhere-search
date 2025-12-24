@@ -8,8 +8,8 @@ function search() {
   clearResults();
 
   // 'POSTS' defined by 'gan_data.rb'
-  postLoop: for (post of POSTS) {
-    for (word of words) if (!post.text.match(word)) continue postLoop;
+  postLoop: for (let post of POSTS) {
+    for (let word of words) if (!post.text.match(word)) continue postLoop;
     addToResults(post);
   }
 
