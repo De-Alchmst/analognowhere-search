@@ -19,7 +19,7 @@ sub sanitize {
 # Get Index
 
 my $resp = get "https://analognowhere.com/_/archive/";
-my @index = $resp =~ /_\/[\w\d]+\//g;
+my @index = $resp =~ /_\/[\w\d]+/g;
 
 # Get Entries
 
@@ -27,14 +27,16 @@ my $self_dir = dirname $0;
 my $entries = "";
 
 for my $link (@index) {
+    next if $link eq "_/archive"; # catched from <meta>
+
     my ($addr, $image_address, $text);
 
-    my $local_path = "$self_dir/backup/$link";
+    my $local_path = "$self_dir/backup/$link/";
 
     # data not present, download them and store locally
     if (not -e $local_path) {
         ## download
-        $addr = "https://analognowhere.com/$link";
+        $addr = "https://analognowhere.com/$link/";
         my $resp = get $addr;
 
         $resp =~ m/img src="(\S+?)"/;
