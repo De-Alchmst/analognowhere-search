@@ -42,7 +42,7 @@ for my $link (@index) {
         $resp =~ m/img src="(\S+?)"/;
         my $server_image_address = "https://analognowhere.com/$1";
         my ($image_extention) = $server_image_address =~ m/(\.\w+)$/;
-        $image_address = "backup/${link}image$image_extention";
+        $image_address = "backup/${link}/image/$image_extention";
 
         # title
         $resp =~ m/<h1>(.+?)<\/h1>/;
