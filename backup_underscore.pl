@@ -47,7 +47,8 @@ for my $link (@index) {
         $image_address = "backup/${link}/image$image_extention";
 
         # title
-        $resp =~ m/<h1>(.+?)<\/h1>/;
+        # $resp =~ m/<h1>(.+?)<\/h1>/;
+        $resp =~ m/<p class="short-nav">(.*?)</;
         $text = lc $1;
 
         # subtitle ('*' because might be empty)
