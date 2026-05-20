@@ -39,9 +39,10 @@ for my $link (@index) {
         $addr = "https://analognowhere.com/$link/";
         my $resp = get $addr;
 
+        # currently only the image itself present
         my @links = $resp =~ m/img src="(\S+?)"/;
-        # 0 = header image, 1+ = body posts
-        my $server_image_address = "https://analognowhere.com/$links[1]";
+
+        my $server_image_address = "https://analognowhere.com/$links[0]";
         my ($image_extention) = $server_image_address =~ m/(\.\w+)$/;
         $image_address = "backup/${link}/image$image_extention";
 
